@@ -15,14 +15,19 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from coffee_shop import views
+from django.urls import path, include
+from .views import DrinksViewSet
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'drinks', DrinksViewSet, basename='drink')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('drinks_list/', views.drinks_list),
-    path('drinks/create', views.create_drink),
-    path('drinks_info/<int:id>', views.drink_details),
-    path('drinks/update/<int:id>', views.update_drink),
-    path('drinks/remove/<int:id>', views.remove_drink)
+    path('', include(router.urls))
+    # path('drinks_list/', views.drinks_list), # get all list
+    # path('drinks/create', views.create_drink), # create coffee item
+    # path('drinks_info/<int:id>', views.drink_details), # get specific coffee details
+    # path('drinks/update/<int:id>', views.update_drink), # update specific coffee
+    # path('drinks/remove/<int:id>', views.remove_drink) # remove specific coffee
 ]
