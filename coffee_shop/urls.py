@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import DrinksViewSet, UserRegistrationView, UserLoginView, UsersViewSet
+from .views import DrinksViewSet, UserLoginView, UsersViewSet
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -26,7 +26,6 @@ router.register(r'users', UsersViewSet, basename='user')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
-    path('register/', UserRegistrationView.as_view(), name='register'),
     path('login/', UserLoginView.as_view(), name='login')
     # path('drinks_list/', views.drinks_list), # get all list
     # path('drinks/create', views.create_drink), # create coffee item

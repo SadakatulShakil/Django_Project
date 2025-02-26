@@ -6,37 +6,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, viewsets
 
+#----------------------DRINKS-------------------_#
 
 class DrinksViewSet(viewsets.ModelViewSet):
     queryset = Drinks.objects.all()
-    serializer_class = DrinksSerializer
-    
-class UsersViewSet(viewsets.ModelViewSet):
-    queryset = Users.objects.all()
-    serializer_class = UserRegistrationSerializer
-    
-# Override the list method to customize the response
-    def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        serializer = self.get_serializer(queryset, many=True)
-        return Response({"users": serializer.data})
-
-
-class UserRegistrationView(APIView):
-    def post(self, request):
-        serializer = UserRegistrationSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'message': 'Successfully registered.'}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-class UserLoginView(APIView):
-    def post(self, request):
-        serializer = UserLoginSerializer(data=request.data)
-        if serializer.is_valid():
-            return Response({'message': 'Login successful.', "user": serializer.data}, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+    serializer_class = DrinksSerializer    
     
 # Override the list method to customize the response
     def list(self, request, *args, **kwargs):
@@ -80,7 +54,48 @@ class UserLoginView(APIView):
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.delete()
-        return Response({"message": "Drink deleted successfully!"}, status=status.HTTP_204_NO_CONTENT)
+        return Response({"message": "Drink deleted successfully!"}, 
+                        status=status.HTTP_204_NO_CONTENT)
+
+#------------------------USER------------------------#
+    
+class UsersViewSet(viewsets.ModelViewSet):
+    queryset = Users.objects.all()
+    serializer_class = UserRegistrationSerializer
+    
+class UsersViewSet(viewsets.ModelViewSet):
+    queryset = Users.objects.all()
+    serializer_class = UserRegistrationSerializer
+
+    # Override the list method to customize the response
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response({"users": serializer.data})
+
+    # Override the create method for custom registration handling
+    def create(self, request, *args, **kwargs):
+        serializer = UserRegistrationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Successfully registered.'}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # Override the destroy method to delete a user
+    def destroy(self, request, *args, **kwargs):
+        user = self.get_object()  # Get the user object based on the provided pk (primary key)
+        user.delete()
+        return Response({"message": "User deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
+
+#------------------LOGIN------------------#
+
+class UserLoginView(APIView):
+    def post(self, request):
+        serializer = UserLoginSerializer(data=request.data)
+        if serializer.is_valid():
+            return Response({'message': 'Login successful.', "user": serializer.data}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
     
      
