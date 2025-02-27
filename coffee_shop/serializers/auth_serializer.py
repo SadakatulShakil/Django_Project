@@ -1,10 +1,6 @@
 from rest_framework import serializers
-from .models import Drinks, Users
-
-class DrinksSerializer (serializers.ModelSerializer):
-     class Meta:
-         model = Drinks
-         fields = '__all__'
+from ..models import Users  # Import from __init__.py
+from django.contrib.auth.hashers import check_password
     
     
 class UserRegistrationSerializer (serializers.ModelSerializer):
@@ -46,7 +42,7 @@ class UserLoginSerializer (serializers.Serializer):
         
         # check the database if the user exist and the password also match
         user = Users.objects.filter(mobile=mobile).first()
-        if not user or user.password != password:
-            raise serializers.ValidationError("Invalid mobile number or password.") 
+        if not user or not check_password(password, user.password): #check the hash password from database
+            raise serializers.ValidationError("Invalid mobile number or password.")
         
         return user

@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import DrinksViewSet, UserLoginView, UsersViewSet
+from coffee_shop.views import DrinksViewSet, UserLoginView, UsersViewSet
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
