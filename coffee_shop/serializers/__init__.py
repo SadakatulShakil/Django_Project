@@ -1,2 +1,3 @@
 from .drinks_serializer import DrinksSerializer
 from .auth_serializer import UserRegistrationSerializer, UserLoginSerializer
+from .report_serializer import ReportSerializer

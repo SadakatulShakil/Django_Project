@@ -27,7 +27,7 @@ def create(self, validated_data):
         user = Users.objects.create(**validated_data)
         return user
     
-    # create users
+    # users login serializer
 class UserLoginSerializer (serializers.Serializer):
     mobile = serializers.CharField()
     password = serializers.CharField()
