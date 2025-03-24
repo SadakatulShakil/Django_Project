@@ -17,7 +17,10 @@ class Reports(models.Model):
     injured = models.CharField(max_length=10)
     displaced = models.CharField(max_length=10)
     deaths = models.CharField(max_length=10)
-    imagePath = models.CharField(max_length=200)
+    
+    # Modify the imagePath to be optional
+    imagePath = models.CharField(max_length=200, blank=True, null=True)
+    
     landslideSetting = models.TextField()
     classification = models.CharField(max_length=100)
     materialType = models.CharField(max_length=100)
@@ -43,4 +46,4 @@ class Reports(models.Model):
     distance2 = models.CharField(max_length=20)
     
     def __str__(self):
-        return self.landslideId+ ' ->'+' district: '+ self.district
+        return self.landslideId + ' ->' + ' district: ' + self.district
